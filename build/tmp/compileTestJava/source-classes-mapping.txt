@@ -1,0 +1,4 @@
+com/sparta/springweb/SpringwebApplicationTests.java
+ com.sparta.springweb.SpringwebApplicationTests
+com/sparta/springweb/service/UserServiceTest.java
+ com.sparta.springweb.service.UserServiceTest
