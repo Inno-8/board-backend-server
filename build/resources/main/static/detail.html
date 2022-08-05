@@ -88,7 +88,7 @@
         <!------- 댓글  -------->
         // 댓글을 불러옵니다.
         function getReplies() {
-            let postId = location.href.split("id=")[1]; //[앞부분] [2] localhos/modify.html?id=12&address=seoul&
+            let postId = location.href.split("id=")[1];
             $.ajax({
                 type: "GET",
                 url: `/api/reply/${postId}`,
@@ -106,7 +106,7 @@
             });
         }
 
-        // 불로온 댓글을 html에 붙여줍니다.
+        // 불러온 댓글을 html에 붙여줍니다.
         function addReplyHTML(id, username, reply, modifiedAt) {
             let tempHtml = makeReply(id, username, reply, modifiedAt);
             $('#reply-box').append(tempHtml);
@@ -194,7 +194,7 @@
 
         // 댓글을 작성하고 post 요청을 보내 저장합니다.
         function writeReply() {
-            let postid = location.href.split("id=")[1]; //[앞부분] [2] localhos/modify.html?id=12&address=seoul&
+            let postid = location.href.split("id=")[1];
             var username = [[${username}]];
             let reply = $('#reply').val();
             if (isValidContents(reply) == false) {
