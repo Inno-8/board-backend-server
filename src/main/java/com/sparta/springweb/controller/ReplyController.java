@@ -1,6 +1,6 @@
 package com.sparta.springweb.controller;
 
-import com.sparta.springweb.model.dto.ReplyRequestDto;
+import com.sparta.springweb.dto.ReplyRequestDto;
 import com.sparta.springweb.model.Reply;
 import com.sparta.springweb.security.UserDetailsImpl;
 import com.sparta.springweb.service.ReplyService;

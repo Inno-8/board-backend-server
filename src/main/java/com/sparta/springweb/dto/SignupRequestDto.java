@@ -1,4 +1,4 @@
-package com.sparta.springweb.model.dto;
+package com.sparta.springweb.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

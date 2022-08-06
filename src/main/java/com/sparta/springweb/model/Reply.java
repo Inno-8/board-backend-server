@@ -1,6 +1,6 @@
 package com.sparta.springweb.model;
 
-import com.sparta.springweb.model.dto.ReplyRequestDto;
+import com.sparta.springweb.dto.ReplyRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

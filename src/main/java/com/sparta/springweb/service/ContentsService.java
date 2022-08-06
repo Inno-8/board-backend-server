@@ -1,7 +1,7 @@
 package com.sparta.springweb.service;
 
-import com.sparta.springweb.model.dto.ContentsRequestDto;
-import com.sparta.springweb.model.dto.ContentsResponseDto;
+import com.sparta.springweb.dto.ContentsRequestDto;
+import com.sparta.springweb.dto.ContentsResponseDto;
 import com.sparta.springweb.model.Contents;
 import com.sparta.springweb.repository.ContentsRepository;
 import com.sparta.springweb.repository.ReplyRepository;

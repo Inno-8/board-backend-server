@@ -1,7 +1,7 @@
 package com.sparta.springweb.controller;
 
-import com.sparta.springweb.model.dto.LoginRequestDto;
-import com.sparta.springweb.model.dto.SignupRequestDto;
+import com.sparta.springweb.dto.LoginRequestDto;
+import com.sparta.springweb.dto.SignupRequestDto;
 import com.sparta.springweb.jwt.JwtTokenProvider;
 import com.sparta.springweb.service.UserService;
 import lombok.RequiredArgsConstructor;

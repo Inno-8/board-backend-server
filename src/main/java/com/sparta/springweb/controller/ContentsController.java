@@ -1,8 +1,8 @@
 package com.sparta.springweb.controller;
 
 
-import com.sparta.springweb.model.dto.ContentsRequestDto;
-import com.sparta.springweb.model.dto.ContentsResponseDto;
+import com.sparta.springweb.dto.ContentsRequestDto;
+import com.sparta.springweb.dto.ContentsResponseDto;
 import com.sparta.springweb.model.Contents;
 import com.sparta.springweb.repository.ContentsRepository;
 import com.sparta.springweb.security.UserDetailsImpl;

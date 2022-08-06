@@ -1,4 +1,4 @@
-package com.sparta.springweb.model.dto;
+package com.sparta.springweb.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sparta.springweb.model.Contents;
