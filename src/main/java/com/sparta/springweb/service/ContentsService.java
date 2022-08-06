@@ -7,6 +7,7 @@ import com.sparta.springweb.repository.CommentRepository;
 import com.sparta.springweb.repository.ContentsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -19,26 +20,12 @@ public class ContentsService {
 
     private final ContentsRepository ContentsRepository;
     private final CommentRepository commentRepository;
+    private final StorageService storageService;
 
-    // 게시글 작성
-    @Transactional // 메소드 동작이 SQL 쿼리문임을 선언합니다.
-    public Contents createContents(ContentsRequestDto requestDto, String username) {
-        String contentsCheck = requestDto.getContents();
-        String titleCheck = requestDto.getTitle();
-        if (contentsCheck.contains("script") || contentsCheck.contains("<") || contentsCheck.contains(">")) {
-            Contents contents = new Contents(requestDto, username, "xss 안돼요,,하지마세요ㅠㅠ");
-            ContentsRepository.save(contents);
-            return contents;
-        }
-        if (titleCheck.contains("script") || titleCheck.contains("<") || titleCheck.contains(">")) {
-            Contents contents = new Contents("xss 안돼요,,하지마세요ㅠㅠ", username, "xss 안돼요,,하지마세요ㅠㅠ");
-            ContentsRepository.save(contents);
-            return contents;
-        }
-        // 요청받은 DTO 로 DB에 저장할 객체 만들기
-        Contents contents = new Contents(requestDto, username);
-        ContentsRepository.save(contents);
-        return contents;
+    @Transactional
+    public Contents createContents(ContentsRequestDto contentsRequestDto, String username, MultipartFile imageFile) {
+        String filePath = storageService.uploadFile(imageFile);
+        return ContentsRepository.save(new Contents(contentsRequestDto, username, filePath));
     }
 
     // 게시글 조회
