@@ -4,6 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class ReplyRequestDto {
-    private Long postid;
     private String reply;
 }
