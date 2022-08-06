@@ -1,6 +1,6 @@
 package com.sparta.springweb.service;
 
-import com.sparta.springweb.dto.ReplyRequestDto;
+import com.sparta.springweb.model.dto.ReplyRequestDto;
 import com.sparta.springweb.model.Reply;
 import com.sparta.springweb.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,42 +18,36 @@ public class ReplyService {
 
     // 댓글 조회
     public List<Reply> getReply(Long postId) {
-        return ReplyRepository.findAllByPostidOrderByCreatedAtDesc(postId);
+        return ReplyRepository.findAllByPostIdOrderByCreatedAtDesc(postId);
     }
 
     // 댓글 작성
     @Transactional
-    public Reply createReply(ReplyRequestDto requestDto,String username, Long userId) {
-        String replyCheck = requestDto.getReply();
-        if (replyCheck.contains("script") || replyCheck.contains("<") || replyCheck.contains(">")) {
-            Reply reply = new Reply(requestDto, username, userId, "xss 안돼요,, 하지마세요ㅠㅠ");
-            ReplyRepository.save(reply);
-            return reply;
-        }
+    public void createReply(Long postId, ReplyRequestDto requestDto,String username) {
         // 요청받은 DTO 로 DB에 저장할 객체 만들기
-        Reply reply = new Reply(requestDto, username, userId);
+        Reply reply = new Reply(postId, requestDto, username);
         ReplyRepository.save(reply);
-        return reply;
     }
 
     // 댓글 수정
     @Transactional
-    public String update(Long id, ReplyRequestDto requestDto, String username, Long userId) {
+    public String update(Long id, ReplyRequestDto requestDto, String username) {
         Reply reply = ReplyRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("존재하지 않습니다."));
-        Long writerId = reply.getUserId();
-        if (Objects.equals(writerId, userId)) {
+        String writername = reply.getUsername();
+        if (Objects.equals(writername, username)) {
             reply.update(requestDto);
             return "댓글 수정 완료";
         } return "작성한 유저가 아닙니다.";
     }
 
     // 댓글 삭제
-    public String deleteReply(Long replyId, Long userId) {
-        Long writerId = ReplyRepository.findById(replyId).orElseThrow(
-                () -> new IllegalArgumentException("게시글이 존재하지 않습니다.")).getUserId();
-        if (Objects.equals(writerId, userId)) {
-            ReplyRepository.deleteById(replyId);
+    public String deleteReply(Long id, String username) {
+        Reply reply = ReplyRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않습니다."));
+        String writername = reply.getUsername();
+        if (Objects.equals(writername, username)) {
+            ReplyRepository.deleteById(id);
             return "댓글 삭제 완료";
         }
         return "작성한 유저가 아닙니다.";

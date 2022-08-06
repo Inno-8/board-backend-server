@@ -1,6 +1,6 @@
 package com.sparta.springweb.model;
 
-import com.sparta.springweb.dto.ReplyRequestDto;
+import com.sparta.springweb.model.dto.ReplyRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,12 +12,12 @@ import javax.persistence.*;
 public class Reply extends Timestamped {
 
     // ID가 자동으로 생성 및 증가합니다.
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
     @Column(nullable = false)
-    private Long postid;
+    private Long postId;
 
     @Column(nullable = false)
     private String username;
@@ -25,20 +25,14 @@ public class Reply extends Timestamped {
     @Column(nullable = false)
     private String reply;
 
-    @Column(nullable = false)
-    private Long userId;
 
-    public Reply(ReplyRequestDto requestDto, String username, Long userId) {
-        this.postid = requestDto.getPostid();
+    //@OneToMany 대댓글
+
+
+    public Reply(Long postId, ReplyRequestDto requestDto, String username) {
         this.reply = requestDto.getReply();
         this.username = username;
-        this.userId = userId;
-    }
-    public Reply(ReplyRequestDto requestDto, String username, Long userId, String reply) {
-        this.postid = requestDto.getPostid();
-        this.reply = reply;
-        this.username = username;
-        this.userId = userId;
+        this.postId = postId;
     }
 
     public void update(ReplyRequestDto requestDto) {

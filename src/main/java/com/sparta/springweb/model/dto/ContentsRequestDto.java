@@ -1,4 +1,4 @@
-package com.sparta.springweb.dto;
+package com.sparta.springweb.model.dto;
 
 import lombok.Getter;
 

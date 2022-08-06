@@ -1,7 +1,7 @@
 package com.sparta.springweb.service;
 
-import com.sparta.springweb.dto.ContentsRequestDto;
-import com.sparta.springweb.dto.ContentsResponseDto;
+import com.sparta.springweb.model.dto.ContentsRequestDto;
+import com.sparta.springweb.model.dto.ContentsResponseDto;
 import com.sparta.springweb.model.Contents;
 import com.sparta.springweb.repository.ContentsRepository;
 import com.sparta.springweb.repository.ReplyRepository;
@@ -47,7 +47,7 @@ public class ContentsService {
         List<ContentsResponseDto> listContents = new ArrayList<>();
         for (Contents content : contents) {
             // + 댓글 개수 카운팅 (추가 기능)
-            int countReply = ReplyRepository.countByPostid(content.getId());
+            int countReply = ReplyRepository.countByPostId(content.getId());
             ContentsResponseDto contentsResponseDto = ContentsResponseDto.builder()
                     .content(content)
                     .countReply(countReply)

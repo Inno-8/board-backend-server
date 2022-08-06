@@ -1,8 +1,8 @@
 package com.sparta.springweb.service;
 
 
-import com.sparta.springweb.dto.LoginRequestDto;
-import com.sparta.springweb.dto.SignupRequestDto;
+import com.sparta.springweb.model.dto.LoginRequestDto;
+import com.sparta.springweb.model.dto.SignupRequestDto;
 import com.sparta.springweb.jwt.JwtTokenProvider;
 import com.sparta.springweb.model.User;
 import com.sparta.springweb.repository.UserRepository;
