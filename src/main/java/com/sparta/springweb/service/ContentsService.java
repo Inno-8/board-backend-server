@@ -3,8 +3,8 @@ package com.sparta.springweb.service;
 import com.sparta.springweb.dto.ContentsRequestDto;
 import com.sparta.springweb.dto.ContentsResponseDto;
 import com.sparta.springweb.model.Contents;
+import com.sparta.springweb.repository.CommentRepository;
 import com.sparta.springweb.repository.ContentsRepository;
-import com.sparta.springweb.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ import java.util.Objects;
 public class ContentsService {
 
     private final ContentsRepository ContentsRepository;
-    private final ReplyRepository ReplyRepository;
+    private final CommentRepository commentRepository;
 
     // 게시글 작성
     @Transactional // 메소드 동작이 SQL 쿼리문임을 선언합니다.
@@ -47,7 +47,7 @@ public class ContentsService {
         List<ContentsResponseDto> listContents = new ArrayList<>();
         for (Contents content : contents) {
             // + 댓글 개수 카운팅 (추가 기능)
-            int countReply = ReplyRepository.countByPostId(content.getId());
+            int countReply = commentRepository.countByPostId(content.getId());
             ContentsResponseDto contentsResponseDto = ContentsResponseDto.builder()
                     .content(content)
                     .countReply(countReply)
