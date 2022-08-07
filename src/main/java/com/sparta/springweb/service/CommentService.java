@@ -1,6 +1,9 @@
 package com.sparta.springweb.service;
 
 import com.sparta.springweb.dto.CommentRequestDto;
+import com.sparta.springweb.global.error.exception.EntityNotFoundException;
+import com.sparta.springweb.global.error.exception.ErrorCode;
+import com.sparta.springweb.global.error.exception.InvalidValueException;
 import com.sparta.springweb.model.Comment;
 import com.sparta.springweb.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,33 +26,29 @@ public class CommentService {
 
     // 댓글 작성
     @Transactional
-    public void createComment(Long postId, CommentRequestDto requestDto,String username) {
-        // 요청받은 DTO 로 DB에 저장할 객체 만들기
-        Comment comment = new Comment(postId, requestDto, username);
-        commentRepository.save(comment);
+    public void createComment(Long postId, CommentRequestDto requestDto, String username) {
+        commentRepository.save(new Comment(postId, requestDto, username));
     }
 
     // 댓글 수정
     @Transactional
-    public String update(Long id, CommentRequestDto requestDto, String username) {
+    public void update(Long id, CommentRequestDto requestDto, String username) {
         Comment comment = commentRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않습니다."));
-        String writername = comment.getUsername();
-        if (Objects.equals(writername, username)) {
-            comment.update(requestDto);
-            return "댓글 수정 완료";
-        } return "작성한 유저가 아닙니다.";
+                () -> new EntityNotFoundException(ErrorCode.NOTFOUND_COMMENT));
+        if (!Objects.equals(comment.getUsername(), username)) {
+            throw new InvalidValueException(ErrorCode.NOT_AUTHORIZED);
+        }
+        comment.update(requestDto);
     }
 
     // 댓글 삭제
-    public String deleteComment(Long id, String username) {
+    public void deleteComment(Long id, String username) {
         Comment comment = commentRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않습니다."));
+                () -> new EntityNotFoundException(ErrorCode.NOTFOUND_COMMENT));
         String writername = comment.getUsername();
-        if (Objects.equals(writername, username)) {
-            commentRepository.deleteById(id);
-            return "댓글 삭제 완료";
+        if (!Objects.equals(writername, username)) {
+            throw new InvalidValueException(ErrorCode.NOT_AUTHORIZED);
         }
-        return "작성한 유저가 아닙니다.";
+        commentRepository.deleteById(id);
     }
 }

@@ -2,6 +2,9 @@ package com.sparta.springweb.service;
 
 import com.sparta.springweb.dto.ContentsRequestDto;
 import com.sparta.springweb.dto.ContentsResponseDto;
+import com.sparta.springweb.global.error.exception.EntityNotFoundException;
+import com.sparta.springweb.global.error.exception.ErrorCode;
+import com.sparta.springweb.global.error.exception.InvalidValueException;
 import com.sparta.springweb.model.Contents;
 import com.sparta.springweb.repository.CommentRepository;
 import com.sparta.springweb.repository.ContentsRepository;
@@ -24,7 +27,10 @@ public class ContentsService {
 
     @Transactional
     public Contents createContents(ContentsRequestDto contentsRequestDto, String username, MultipartFile imageFile) {
-        String filePath = storageService.uploadFile(imageFile);
+        String filePath = "";
+        if (imageFile != null) {
+            filePath = storageService.uploadFile(imageFile);
+        }
         return ContentsRepository.save(new Contents(contentsRequestDto, username, filePath));
     }
 
@@ -48,7 +54,7 @@ public class ContentsService {
     @Transactional
     public Long update(Long id, ContentsRequestDto requestDto) {
         Contents Contents = ContentsRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+                () -> new EntityNotFoundException(ErrorCode.NOTFOUND_POST)
         );
         Contents.update(requestDto);
         return Contents.getId();
@@ -57,9 +63,10 @@ public class ContentsService {
     // 게시글 삭제
     public void deleteContent(Long ContentId, String userName) {
         String writer = ContentsRepository.findById(ContentId).orElseThrow(
-                () -> new IllegalArgumentException("게시글이 존재하지 않습니다.")).getName();
-        if (Objects.equals(writer, userName)) {
-            ContentsRepository.deleteById(ContentId);
-        }else new IllegalArgumentException("작성한 유저가 아닙니다.");
+                () -> new EntityNotFoundException(ErrorCode.NOTFOUND_POST)).getName();
+        if (!Objects.equals(writer, userName)) {
+            throw new InvalidValueException(ErrorCode.NOT_AUTHORIZED);
+        }
+        ContentsRepository.deleteById(ContentId);
     }
 }
