@@ -3,7 +3,6 @@ package com.sparta.springweb.dto;
 import lombok.Getter;
 
 @Getter
-public class CommentRequestDto {
-    private String comment;
-
+public class ReplyRequestDto {
+    private String reply;
 }
