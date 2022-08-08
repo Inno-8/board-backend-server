@@ -2,6 +2,8 @@ package com.sparta.springweb.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.sparta.springweb.exception.FailedConvertingException;
+import com.sparta.springweb.global.error.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,7 @@ public class StorageService {
             fos.write(file.getBytes());
         } catch (IOException e) {
             log.error("Error converting multipartFile to file", e);
+            throw new FailedConvertingException(ErrorCode.CONVERTING_FAILED);
         }
         return convertedFile;
     }

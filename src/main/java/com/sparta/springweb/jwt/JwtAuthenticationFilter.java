@@ -1,5 +1,8 @@
 package com.sparta.springweb.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.SignatureException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,10 +26,21 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) request);
         // 유효한 토큰인지 확인합니다.
         if (token != null && jwtTokenProvider.validateToken(token)) {
-            // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
-            Authentication authentication = jwtTokenProvider.getAuthentication(token);
-            // SecurityContext 에 Authentication 객체를 저장합니다.
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            try {
+                // 토큰이 유효하면 토큰으로부터 유저 정보를 받아옵니다.
+                Authentication authentication = jwtTokenProvider.getAuthentication(token);
+                // SecurityContext 에 Authentication 객체를 저장합니다.
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (IllegalArgumentException e) {
+                logger.error("an error occured during getting username from token", e);
+                throw new JwtException("유효하지 않은 토큰");
+            } catch (ExpiredJwtException e) {
+                logger.warn("the token is expired and not valid anymore", e);
+                throw new JwtException("토큰 기한 만료");
+            } catch(SignatureException e){
+                logger.error("Authentication Failed. Username or Password not valid.");
+                throw new JwtException("사용자 인증 실패");
+            }
         }
         chain.doFilter(request, response);
     }
