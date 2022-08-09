@@ -32,6 +32,10 @@ public enum ErrorCode {
 
     // 댓글
     NOTFOUND_COMMENT(404, "해당 댓글이 존재하지 않습니다."),
+
+    // 대댓글
+    NOTFOUND_REPLY(404, "해당 대댓글이 존재하지 않습니다."),
+
     ;
     private final String message;
     private final int status;

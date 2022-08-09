@@ -66,5 +66,4 @@ public class CommentService {
         return postRepository.findById(postId).orElseThrow(
                 () -> new EntityNotFoundException(ErrorCode.NOTFOUND_POST));
     }
-
 }
