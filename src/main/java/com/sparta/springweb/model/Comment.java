@@ -3,6 +3,7 @@ package com.sparta.springweb.model;
 import com.sparta.springweb.dto.CommentRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -11,28 +12,25 @@ import javax.persistence.*;
 @Entity // DB 테이블 역할을 합니다.
 public class Comment extends Timestamped {
 
-    // ID가 자동으로 생성 및 증가합니다.
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-
-    @Column(nullable = false)
-    private Long postId;
-
     @Column(nullable = false)
     private String username;
 
     @Column(nullable = false)
     private String comment;
 
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 
     //@OneToMany 대댓글
 
-
-    public Comment(Long postId, CommentRequestDto requestDto, String username) {
+    public Comment(CommentRequestDto requestDto, String username) {
         this.comment = requestDto.getComment();
         this.username = username;
-        this.postId = postId;
     }
 
     public void update(CommentRequestDto requestDto) {

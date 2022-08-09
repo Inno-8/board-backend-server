@@ -3,8 +3,7 @@ package com.sparta.springweb.dto;
 import lombok.Getter;
 
 @Getter
-public class ContentsRequestDto {
+public class PostRequestDto {
     private String title;
-    private String name;
     private String contents;
 }

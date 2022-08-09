@@ -1,15 +1,17 @@
 package com.sparta.springweb.model;
 
-import com.sparta.springweb.dto.ContentsRequestDto;
+import com.sparta.springweb.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter // get 함수를 일괄적으로 만들어줍니다.
 @NoArgsConstructor // 기본 생성자를 만들어줍니다.
 @Entity // DB 테이블 역할을 합니다.
-public class Contents extends Timestamped {
+public class Post extends Timestamped {
 
     // ID가 자동으로 생성 및 증가합니다.
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,37 +26,38 @@ public class Contents extends Timestamped {
     private String name;
 
     @Column(nullable = false)
-    private String contents;
+    private String content;
 
     private String filePath;
 
-    public Contents(String title, String username, String contents) {
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final Set<Comment> comments = new HashSet<>();
+
+    public Post(String title, String username, String content) {
         this.title = title;
         this.name = username;
-        this.contents = contents;
+        this.content = content;
     }
 
-    public Contents(ContentsRequestDto requestDto) {
+    public Post(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
-        this.name = requestDto.getName();
-        this.contents = requestDto.getContents();
+        this.content = requestDto.getContents();
     }
 
-    public Contents(ContentsRequestDto requestDto, String username) {
+    public Post(PostRequestDto requestDto, String username) {
         this.title = requestDto.getTitle();
         this.name = username;
-        this.contents = requestDto.getContents();
+        this.content = requestDto.getContents();
     }
 
-    public void update(ContentsRequestDto requestDto) {
+    public void update(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
-        this.name = requestDto.getName();
-        this.contents = requestDto.getContents();
+        this.content = requestDto.getContents();
     }
 
-    public Contents(ContentsRequestDto requestDto, String username,String filePath) {
+    public Post(PostRequestDto requestDto, String username, String filePath) {
         this.title = requestDto.getTitle();
-        this.contents = requestDto.getContents();
+        this.content = requestDto.getContents();
         this.name = username;
         this.filePath = filePath;
     }
