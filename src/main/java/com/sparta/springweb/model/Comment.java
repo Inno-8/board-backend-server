@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter // get 함수를 일괄적으로 만들어줍니다.
 @NoArgsConstructor // 기본 생성자를 만들어줍니다.
@@ -26,7 +28,8 @@ public class Comment extends Timestamped {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    //@OneToMany 대댓글
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "comment", orphanRemoval = true)
+    private final List<Reply> replies = new ArrayList<>();
 
     public Comment(CommentRequestDto requestDto, String username) {
         this.comment = requestDto.getComment();

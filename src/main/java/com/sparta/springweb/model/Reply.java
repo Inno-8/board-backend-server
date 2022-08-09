@@ -27,18 +27,6 @@ public class Reply {
     @ManyToOne(fetch  = FetchType.LAZY)
     private Comment comment;
 
-//    @JoinColumn(name = "comment", insertable = false, updatable = false)
-//    @ManyToOne(targetEntity = Comment.class, fetch  = FetchType.LAZY)
-//    private Comment comment;
-//
-//    @Column(name = "comment_Id")
-//    private Long commentId;
-//
-//    public void setComment(Comment comment){
-//        setCommentId(comment.getId());
-//        this.comment = comment;
-//    }
-
 
     public Reply(ReplyRequestDto replyRequestDto, String username) {
         this.reply = replyRequestDto.getReply();

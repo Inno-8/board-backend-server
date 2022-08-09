@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter // get 함수를 일괄적으로 만들어줍니다.
 @NoArgsConstructor // 기본 생성자를 만들어줍니다.
@@ -31,7 +31,7 @@ public class Post extends Timestamped {
     private String filePath;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final Set<Comment> comments = new HashSet<>();
+    private final List<Comment> comments = new ArrayList<>();
 
     public Post(String title, String username, String content) {
         this.title = title;
