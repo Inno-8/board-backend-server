@@ -27,7 +27,7 @@ public class ReplyController {
     }
 
     @PostMapping("/{commentId}")
-    public CommonResponse<ReplyResponseDto> createReply(
+    public CommonResponse<?> createReply(
             @PathVariable Long commentId,
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody ReplyRequestDto requestDto

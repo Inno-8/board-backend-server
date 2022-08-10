@@ -5,12 +5,13 @@ import lombok.Getter;
 
 @Getter
 public class ReplyResponseDto {
-
+    private final Long id;
     private final String username;
     private final String content;
 
     @Builder
-    public ReplyResponseDto(String username, String content) {
+    public ReplyResponseDto(Long id,String username, String content) {
+        this.id = id;
         this.username = username;
         this.content = content;
     }

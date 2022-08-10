@@ -31,9 +31,6 @@ public class Comment extends Timestamped {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "comment", orphanRemoval = true)
     private final List<Reply> replies = new ArrayList<>();
 
-    public void newReply(Reply reply) {
-        this.replies.add(reply);
-    }
 
     public Comment(CommentRequestDto requestDto, String username) {
         this.comment = requestDto.getComment();

@@ -23,15 +23,12 @@ public class ReplyService {
 
     public List<ReplyResponseDto> getReplyByCommentId(Long commentId) {
         List<Reply> replies = replyRepository.findAllByCommentId(commentId);
-        return replies.stream().map(m -> new ReplyResponseDto(m.getUsername(), m.getContent())).collect(Collectors.toList());
+        return replies.stream().map(m -> new ReplyResponseDto(m.getId(),m.getUsername(), m.getContent())).collect(Collectors.toList());
     }
 
     @Transactional
     public void createReply(Long commentId, ReplyRequestDto replyRequestDto, String username) {
         Comment comment = existsComment(commentId);
-        Reply reply = Reply.createReply(username, replyRequestDto.getContent(), comment);
-        comment.newReply(reply);
-
         replyRepository.save(Reply.createReply(username, replyRequestDto.getContent(), comment));
     }
 
