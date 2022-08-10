@@ -1,17 +1,12 @@
 package com.sparta.springweb.model;
 
-
-import com.sparta.springweb.dto.ReplyRequestDto;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
 
-@Entity
-@NoArgsConstructor
 @Getter
-public class Reply {
+@Entity
+public class Reply extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
@@ -20,20 +15,26 @@ public class Reply {
     private String username;
 
     @Column
-    private String reply;
+    private String content;
 
     @Setter
-    @JoinColumn(name = "comment_Id", nullable = false)
+    @JoinColumn(name = "comment_id", nullable = false)
     @ManyToOne(fetch  = FetchType.LAZY)
     private Comment comment;
 
+    protected Reply() {}
 
-    public Reply(ReplyRequestDto replyRequestDto, String username) {
-        this.reply = replyRequestDto.getReply();
+    private Reply(String username, String content, Comment comment) {
         this.username = username;
+        this.content = content;
+        this.comment = comment;
     }
 
-    public void update(ReplyRequestDto replyRequestDto){
-        this.reply = replyRequestDto.getReply();
+    public static Reply createReply(String username, String content, Comment comment) {
+        return new Reply(username, content, comment);
     }
+
+//    public void update(ReplyRequestDto replyRequestDto){
+//        this.reply = replyRequestDto.getReply();
+//    }
 }
