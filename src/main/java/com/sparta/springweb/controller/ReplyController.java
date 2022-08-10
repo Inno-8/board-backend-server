@@ -1,6 +1,7 @@
 package com.sparta.springweb.controller;
 
 import com.sparta.springweb.dto.ReplyRequestDto;
+import com.sparta.springweb.dto.ReplyResponseDto;
 import com.sparta.springweb.global.common.response.ApiUtils;
 import com.sparta.springweb.global.common.response.CommonResponse;
 import com.sparta.springweb.global.error.exception.ErrorCode;
@@ -22,7 +23,7 @@ public class ReplyController {
     private final ReplyService replyService;
 
     @GetMapping("/{commentId}")
-    public CommonResponse<List<Reply>> getReply(@PathVariable Long commentId) {
+    public CommonResponse<List<ReplyResponseDto>> getReply(@PathVariable Long commentId) {
         return ApiUtils.success(200, replyService.getReplyByCommentId(commentId));
     }
 

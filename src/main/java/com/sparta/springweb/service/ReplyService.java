@@ -1,6 +1,7 @@
 package com.sparta.springweb.service;
 
 import com.sparta.springweb.dto.ReplyRequestDto;
+import com.sparta.springweb.dto.ReplyResponseDto;
 import com.sparta.springweb.global.error.exception.EntityNotFoundException;
 import com.sparta.springweb.global.error.exception.ErrorCode;
 import com.sparta.springweb.global.error.exception.InvalidValueException;
@@ -20,7 +21,7 @@ public class ReplyService {
     public final ReplyRepository replyRepository;
     public final CommentRepository commentRepository;
 
-    public List<Reply> getReplyByCommentId(Long commentId) {
+    public List<ReplyResponseDto> getReplyByCommentId(Long commentId) {
         return replyRepository.findAllByCommentId(commentId);
     }
 

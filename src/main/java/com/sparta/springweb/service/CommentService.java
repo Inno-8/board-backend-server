@@ -26,7 +26,7 @@ public class CommentService {
 
     // 댓글 조회
     public List<CommentResponseDto> getCommentByPostId(Long postId) {
-        return commentRepository.findByPostId(postId).stream().map(CommentResponseDto::creatDTO).collect(Collectors.toList());
+        return commentRepository.findByPostId(postId).stream().map(CommentResponseDto::createDTO).collect(Collectors.toList());
     }
 
     // 댓글 작성

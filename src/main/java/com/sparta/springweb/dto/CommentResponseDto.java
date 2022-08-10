@@ -6,16 +6,18 @@ import lombok.Getter;
 
 @Getter
 public class CommentResponseDto {
+    private final Long id;
     private final String name;
     private final String content;
 
     @Builder
-    public CommentResponseDto(String name, String content) {
+    public CommentResponseDto(Long id, String name, String content) {
+        this.id = id;
         this.name = name;
         this.content = content;
     }
 
-    public static CommentResponseDto creatDTO(Comment comment) {
-        return new CommentResponseDto(comment.getUsername(), comment.getComment());
+    public static CommentResponseDto createDTO(Comment comment) {
+        return new CommentResponseDto(comment.getId(), comment.getUsername(), comment.getComment());
     }
 }
