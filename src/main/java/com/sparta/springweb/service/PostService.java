@@ -98,4 +98,19 @@ public class PostService {
         }
         return postTitleList;
     }
-}
+
+    public List<PostResponseDto> getPosts(String username) {
+        List<Post> posts = postRepository.findAllByName(username);
+        List<PostResponseDto> listContents = new ArrayList<>();
+        for (Post post : posts) {
+            // + 댓글 개수 카운팅 (추가 기능)
+            int countReply = commentRepository.countByPostId(post.getId());
+            PostResponseDto postResponseDto = PostResponseDto.builder()
+                    .post(post)
+                    .countReply(countReply)
+                    .build();
+            listContents.add(postResponseDto);
+        }
+        return listContents;
+    }
+    }
