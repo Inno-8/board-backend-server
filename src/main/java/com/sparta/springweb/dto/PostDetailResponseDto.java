@@ -2,20 +2,26 @@ package com.sparta.springweb.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sparta.springweb.model.Post;
-import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
-public class PostResponseDto {
+@Setter
+@Data
+public class PostDetailResponseDto {
     private final Long id;
-    private final String name;
-    private final String title;
-    private final String content;
-    private final String filePath;
 
-    private final int countReply;
+    private final String name;
+
+    private final String title;
+
+    private final String content;
+
+    private final String filePath;
 
     private Long countPostLike;
 
@@ -25,8 +31,12 @@ public class PostResponseDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime modifiedAt;
 
-    @Builder
-    public PostResponseDto(Post post, int countReply, Long countPostLike) {
+    private List<CommentResponseDto> commentList;
+
+
+    public PostDetailResponseDto(Post post,
+                                 Long countPostLike,
+                                 List<CommentResponseDto> commentList) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.name = post.getName();
@@ -34,7 +44,7 @@ public class PostResponseDto {
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
-        this.countReply = countReply;
         this.countPostLike = countPostLike;
+        this.commentList = commentList;
     }
 }

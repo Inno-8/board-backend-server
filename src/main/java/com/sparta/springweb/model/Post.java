@@ -1,5 +1,6 @@
 package com.sparta.springweb.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,6 +27,10 @@ public class Post extends Timestamped {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"post"})
+    private List<PostLike> postLikeList = new ArrayList<>();
 
     protected Post() {}
 

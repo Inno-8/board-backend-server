@@ -1,6 +1,7 @@
 package com.sparta.springweb.controller;
 
 
+import com.sparta.springweb.dto.PostDetailResponseDto;
 import com.sparta.springweb.dto.PostRequestDto;
 import com.sparta.springweb.dto.PostResponseDto;
 import com.sparta.springweb.dto.PostUpdateRequestDto;
@@ -35,9 +36,14 @@ public class PostController {
 
     // 게시글 디테일 조회
     @GetMapping("/{id}")
-    public CommonResponse<PostResponseDto> post(@PathVariable Long id) {
-        return ApiUtils.success(200, postService.getPostById(id));
+    public CommonResponse<PostDetailResponseDto> viewPostDetail(@PathVariable Long id) {
+        return ApiUtils.success(200, postService.viewPostDetail(id));
     }
+
+//    @GetMapping("/{id}")
+//    public CommonResponse<PostResponseDto> post(@PathVariable Long id) {
+//        return ApiUtils.success(200, postService.getPostById(id));
+//    }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})

@@ -1,5 +1,6 @@
 package com.sparta.springweb.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sparta.springweb.dto.CommentRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,10 @@ public class Comment extends Timestamped {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"comment"})
+    private List<CommentLike> commentLikeList = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "comment", orphanRemoval = true)
     private final List<Reply> replies = new ArrayList<>();
