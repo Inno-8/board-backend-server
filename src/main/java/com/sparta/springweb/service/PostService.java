@@ -80,4 +80,17 @@ public class PostService {
         int numberOfComments = post.getComments().size();
         return new PostResponseDto(post, numberOfComments);
     }
+
+    @Transactional
+    public List<String> deletePostsBlankComment() {
+        List<Post> posts = postRepository.findAll();
+        ArrayList<String> postTitleList = new ArrayList<>();
+        for (Post post : posts) {
+            if (post.getComments().size() == 0) {
+                postRepository.deleteById(post.getId());
+                postTitleList.add(post.getTitle());
+            }
+        }
+        return postTitleList;
+    }
 }
