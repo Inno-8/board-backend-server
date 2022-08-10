@@ -6,7 +6,6 @@ import com.sparta.springweb.global.common.response.ApiUtils;
 import com.sparta.springweb.global.common.response.CommonResponse;
 import com.sparta.springweb.global.error.exception.ErrorCode;
 import com.sparta.springweb.global.error.exception.InvalidValueException;
-import com.sparta.springweb.model.Reply;
 import com.sparta.springweb.security.UserDetailsImpl;
 import com.sparta.springweb.service.ReplyService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,7 @@ public class ReplyController {
     }
 
     @PostMapping("/{commentId}")
-    public CommonResponse<Reply> createReply(
+    public CommonResponse<ReplyResponseDto> createReply(
             @PathVariable Long commentId,
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody ReplyRequestDto requestDto
@@ -41,30 +40,30 @@ public class ReplyController {
         throw new InvalidValueException(ErrorCode.HANDLE_ACCESS_DENIED);
     }
 
-    @PutMapping("/{id}")
-    public CommonResponse<Reply> updateReply(
-            @PathVariable Long id,
-            @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestBody ReplyRequestDto replyRequestDto
-    ) {
-        if (userDetails != null) {
-            String username = userDetails.getUser().getUsername();
-            replyService.updateReply(id, replyRequestDto, username);
-            return ApiUtils.success(201, null);
-        }
-        throw new InvalidValueException(ErrorCode.HANDLE_ACCESS_DENIED);
-    }
-
-    @DeleteMapping("/{id}")
-    public CommonResponse<Reply> deleteReply(
-            @PathVariable Long id,
-            @AuthenticationPrincipal UserDetailsImpl userDetails
-    ) {
-        if (userDetails != null) {
-            String username = userDetails.getUser().getUsername();
-            replyService.deleteReply(id, username);
-            return ApiUtils.success(200, null);
-        }
-        throw new InvalidValueException(ErrorCode.HANDLE_ACCESS_DENIED);
-    }
+//    @PutMapping("/{id}")
+//    public CommonResponse<ReplyResponseDto> updateReply(
+//            @PathVariable Long id,
+//            @AuthenticationPrincipal UserDetailsImpl userDetails,
+//            @RequestBody ReplyRequestDto replyRequestDto
+//    ) {
+//        if (userDetails != null) {
+//            String username = userDetails.getUser().getUsername();
+//            replyService.updateReply(id, replyRequestDto, username);
+//            return ApiUtils.success(201, null);
+//        }
+//        throw new InvalidValueException(ErrorCode.HANDLE_ACCESS_DENIED);
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public CommonResponse<ReplyResponseDto> deleteReply(
+//            @PathVariable Long id,
+//            @AuthenticationPrincipal UserDetailsImpl userDetails
+//    ) {
+//        if (userDetails != null) {
+//            String username = userDetails.getUser().getUsername();
+//            replyService.deleteReply(id, username);
+//            return ApiUtils.success(200, null);
+//        }
+//        throw new InvalidValueException(ErrorCode.HANDLE_ACCESS_DENIED);
+//    }
 }
