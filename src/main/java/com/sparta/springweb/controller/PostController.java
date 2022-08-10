@@ -3,6 +3,7 @@ package com.sparta.springweb.controller;
 
 import com.sparta.springweb.dto.PostRequestDto;
 import com.sparta.springweb.dto.PostResponseDto;
+import com.sparta.springweb.dto.PostUpdateRequestDto;
 import com.sparta.springweb.global.common.response.ApiUtils;
 import com.sparta.springweb.global.common.response.CommonResponse;
 import com.sparta.springweb.global.error.exception.ErrorCode;
@@ -60,6 +61,19 @@ public class PostController {
 
         String username = userDetails.getUser().getUsername();
         postService.deletePost(id,username);
+        return ApiUtils.success(200, null);
+    }
+
+    @PutMapping(value = "{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public CommonResponse<?> updatePost(@PathVariable long id, @RequestPart @Valid PostUpdateRequestDto postUpdateRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestPart(required = false) MultipartFile imageFile) {
+
+        if (userDetails == null) {
+            throw new InvalidValueException(ErrorCode.HANDLE_ACCESS_DENIED);
+        }
+
+        postUpdateRequestDto.setName(userDetails.getUser().getUsername());
+
+        postService.updatePost(id, postUpdateRequestDto, imageFile);
         return ApiUtils.success(200, null);
     }
 }

@@ -2,6 +2,7 @@ package com.sparta.springweb.service;
 
 import com.sparta.springweb.dto.PostRequestDto;
 import com.sparta.springweb.dto.PostResponseDto;
+import com.sparta.springweb.dto.PostUpdateRequestDto;
 import com.sparta.springweb.global.error.exception.EntityNotFoundException;
 import com.sparta.springweb.global.error.exception.ErrorCode;
 import com.sparta.springweb.global.error.exception.InvalidValueException;
@@ -32,7 +33,7 @@ public class PostService {
         if (imageFile != null) {
             filePath = storageService.uploadFile(imageFile);
         }
-        postRepository.save(new Post(postRequestDto, username, filePath));
+        postRepository.save(Post.createPost(username, postRequestDto.getTitle(), postRequestDto.getContents(), filePath));
     }
 
     // 게시글 조회
@@ -51,14 +52,18 @@ public class PostService {
         return listContents;
     }
 
-    // 게시글 수정 기능 (사용 안함)
     @Transactional
-    public Long updatePost(Long id, PostRequestDto requestDto) {
-        Post Post = postRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(ErrorCode.NOTFOUND_POST)
-        );
-        Post.update(requestDto);
-        return Post.getId();
+    public void updatePost(Long id, PostUpdateRequestDto dto, MultipartFile imageFile) {
+        Post existingPost = exists(id);
+        String filePath = "";
+
+        if (imageFile != null) {
+            filePath = storageService.uploadFile(imageFile);
+        }
+
+        existingPost.updatePost(dto.getTitle(), dto.getContent(), filePath);
+
+        postRepository.save(existingPost);
     }
 
     // 게시글 삭제
