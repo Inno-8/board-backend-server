@@ -1,7 +1,7 @@
 package com.sparta.springweb.controller;
 
+import com.sparta.springweb.dto.CommentDetailResponseDto;
 import com.sparta.springweb.dto.CommentRequestDto;
-import com.sparta.springweb.dto.CommentResponseDto;
 import com.sparta.springweb.global.common.response.ApiUtils;
 import com.sparta.springweb.global.common.response.CommonResponse;
 import com.sparta.springweb.global.error.exception.ErrorCode;
@@ -13,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/comments")
@@ -22,9 +20,15 @@ public class CommentController {
     private final CommentService commentService;
 
     // 게시글 id 로 댓글 조회
-    @GetMapping("/{postId}")
-    public CommonResponse<List<CommentResponseDto>> getComment(@PathVariable Long postId) {
-        return ApiUtils.success(200, commentService.getCommentByPostId(postId));
+//    @GetMapping("/{postId}")
+//    public CommonResponse<List<CommentResponseDto>> getComment(@PathVariable Long postId) {
+//        return ApiUtils.success(200, commentService.getCommentByPostId(postId));
+//    }
+
+    // 댓글 조회
+    @GetMapping("/{id}")
+    public CommonResponse<CommentDetailResponseDto> viewCommentDetail(@PathVariable Long id) {
+        return ApiUtils.success(200, commentService.viewCommentDetail(id));
     }
 
     // 댓글 작성

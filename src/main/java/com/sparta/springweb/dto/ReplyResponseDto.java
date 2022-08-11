@@ -1,18 +1,25 @@
 package com.sparta.springweb.dto;
 
+import com.sparta.springweb.model.Reply;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
+@Setter
 @Getter
 public class ReplyResponseDto {
     private final Long id;
     private final String username;
     private final String content;
 
+    private Long countReplyLike;
+
     @Builder
-    public ReplyResponseDto(Long id,String username, String content) {
-        this.id = id;
-        this.username = username;
-        this.content = content;
+    public ReplyResponseDto(Reply reply, Long countReplyLike) {
+        this.id = reply.getId();
+        this.username = reply.getUsername();
+        this.content = reply.getContent();
+        this.countReplyLike = countReplyLike;
     }
+
 }
