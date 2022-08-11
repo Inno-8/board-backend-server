@@ -28,8 +28,8 @@ public class CommentService {
     private final ReplyLikeRepository replyLikeRepository;
 
     // 댓글 조회
-    public List<CommentResponseDto> getCommentByPostId(Long postId) {
-        List<Comment> comments = commentRepository.findAllByPostIdOrderByCreatedAtDesc(postId);
+    public List<CommentResponseDto> getComments(String username) {
+        List<Comment> comments = commentRepository.findAllByUsername(username);
         List<CommentResponseDto> listcomments = new ArrayList<>();
         for (Comment comment : comments) {
             List<CommentLikeUserDto> commentLikeUserDtos = new ArrayList<>();
@@ -55,8 +55,7 @@ public class CommentService {
 
         List<CommentLikeUserDto> commentLikeUserDtos = new ArrayList<>();
         List<CommentLike> commentLikes = commentLikeRepository.findAllByCommentId(id);
-        for (CommentLike commentLike : commentLikes)
-        {
+        for (CommentLike commentLike : commentLikes) {
             CommentLikeUserDto commentLikeUserDto = new CommentLikeUserDto(commentLike);
             commentLikeUserDtos.add(commentLikeUserDto);
         }

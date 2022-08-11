@@ -78,4 +78,25 @@ public class ReplyService {
         return commentRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(ErrorCode.NOTFOUND_COMMENT));
     }
+
+    //로그인 회원 대댓글 조회
+    public List<ReplyResponseDto> getReplies(String username) {
+        List<Reply> replies = replyRepository.findAllByUsername(username);
+        List<ReplyResponseDto> listreplies = new ArrayList<>();
+        for (Reply reply : replies) {
+            List<ReplyLikeUserDto> replyLikeUserDtos = new ArrayList<>();
+            Long countReplyLike = replyLikeRepository.countByReply(reply);
+            List<ReplyLike> replyLikes = replyLikeRepository.findAllByReply(reply);
+            for (ReplyLike replyLike : replyLikes) {
+                ReplyLikeUserDto replyLikeUserDto = new ReplyLikeUserDto(replyLike);
+                replyLikeUserDtos.add(replyLikeUserDto);
+            }
+            ReplyResponseDto replyResponseDto = ReplyResponseDto.builder()
+                    .reply(reply)
+                    .countReplyLike(countReplyLike)
+                    .build();
+            listreplies.add(replyResponseDto);
+        }
+        return listreplies;
+    }
 }

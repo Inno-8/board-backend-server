@@ -47,7 +47,7 @@ public class PostService {
         List<PostResponseDto> listContents = new ArrayList<>();
         for (Post post : posts) {
             // + 댓글 개수 카운팅 (추가 기능)
-            int countReply = commentRepository.countByPostId(post.getId());
+            int countComment = commentRepository.countByPostId(post.getId());
             // + 좋아요 개수 카운팅
             List<PostLikeUserDto> postLikeUserDtos = new ArrayList<>();
             Long countPostLike = postLikeRepository.countByPost(post);
@@ -59,7 +59,7 @@ public class PostService {
             }
             PostResponseDto postResponseDto = PostResponseDto.builder()
                     .post(post)
-                    .countReply(countReply)
+                    .countComment(countComment)
                     .countPostLike(countPostLike)
                     .build();
             listContents.add(postResponseDto);
@@ -143,13 +143,34 @@ public class PostService {
         List<PostResponseDto> listContents = new ArrayList<>();
         for (Post post : posts) {
             // + 댓글 개수 카운팅 (추가 기능)
-            int countReply = commentRepository.countByPostId(post.getId());
+            int countComment = commentRepository.countByPostId(post.getId());
             PostResponseDto postResponseDto = PostResponseDto.builder()
                     .post(post)
-                    .countReply(countReply)
+                    .countComment(countComment)
                     .build();
             listContents.add(postResponseDto);
         }
         return listContents;
     }
 }
+//
+//
+//    public List<PostResponseDto> getLikedPosts(String username) {
+//        List<Post> posts = postRepository.findAll();
+//        List<PostResponseDto> listContents = new ArrayList<>();
+//        List<PostLike> postlikes = postLikeRepository.findAllByUser(username);
+//        for (PostLike postlike : postlikes)
+//        if(postlike.getUser().equals(username)) {
+//            for (Post post : posts) {
+//                // + 댓글 개수 카운팅 (추가 기능)
+//                int countReply = commentRepository.countByPostId(post.getId());
+//                PostResponseDto postResponseDto = PostResponseDto.builder()
+//                        .post(post)
+//                        .countReply(countReply)
+//                        .build();
+//                listContents.add(postResponseDto);
+//            }
+//        }
+//        return listContents;
+//    }
+

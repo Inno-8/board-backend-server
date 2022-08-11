@@ -15,7 +15,7 @@ public class PostResponseDto {
     private final String content;
     private final String filePath;
 
-    private final int countReply;
+    private final int countComment;
 
     private Long countPostLike;
 
@@ -26,7 +26,7 @@ public class PostResponseDto {
     private final LocalDateTime modifiedAt;
 
     @Builder
-    public PostResponseDto(Post post, int countReply, Long countPostLike) {
+    public PostResponseDto(Post post, int countComment, Long countPostLike) {
         this.id = post.getId();
         this.title = post.getTitle();
         this.name = post.getName();
@@ -34,7 +34,7 @@ public class PostResponseDto {
         this.content = post.getContent();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
-        this.countReply = countReply;
+        this.countComment = countComment;
         this.countPostLike = countPostLike;
     }
 }
