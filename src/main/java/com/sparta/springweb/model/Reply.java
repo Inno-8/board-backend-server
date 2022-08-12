@@ -1,8 +1,10 @@
 package com.sparta.springweb.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sparta.springweb.dto.ReplyRequestDto;
 import lombok.Getter;
 import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +43,7 @@ public class Reply extends Timestamped {
         return new Reply(username, content, comment);
     }
 
-//    public void update(ReplyRequestDto replyRequestDto){
-//        this.reply = replyRequestDto.getReply();
-//    }
+    public void update(ReplyRequestDto replyRequestDto){
+        this.content = replyRequestDto.getContent();
+    }
 }

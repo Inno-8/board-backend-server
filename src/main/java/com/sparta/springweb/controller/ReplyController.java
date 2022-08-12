@@ -40,30 +40,30 @@ public class ReplyController {
         throw new InvalidValueException(ErrorCode.HANDLE_ACCESS_DENIED);
     }
 
-//    @PutMapping("/{id}")
-//    public CommonResponse<ReplyResponseDto> updateReply(
-//            @PathVariable Long id,
-//            @AuthenticationPrincipal UserDetailsImpl userDetails,
-//            @RequestBody ReplyRequestDto replyRequestDto
-//    ) {
-//        if (userDetails != null) {
-//            String username = userDetails.getUser().getUsername();
-//            replyService.updateReply(id, replyRequestDto, username);
-//            return ApiUtils.success(201, null);
-//        }
-//        throw new InvalidValueException(ErrorCode.HANDLE_ACCESS_DENIED);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public CommonResponse<ReplyResponseDto> deleteReply(
-//            @PathVariable Long id,
-//            @AuthenticationPrincipal UserDetailsImpl userDetails
-//    ) {
-//        if (userDetails != null) {
-//            String username = userDetails.getUser().getUsername();
-//            replyService.deleteReply(id, username);
-//            return ApiUtils.success(200, null);
-//        }
-//        throw new InvalidValueException(ErrorCode.HANDLE_ACCESS_DENIED);
-//    }
+    @PutMapping("/{id}")
+    public CommonResponse<ReplyResponseDto> updateReply(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestBody ReplyRequestDto replyRequestDto
+    ) {
+        if (userDetails != null) {
+            String username = userDetails.getUser().getUsername();
+            replyService.updateReply(id, replyRequestDto, username);
+            return ApiUtils.success(201, null);
+        }
+        throw new InvalidValueException(ErrorCode.HANDLE_ACCESS_DENIED);
+    }
+
+    @DeleteMapping("/{id}")
+    public CommonResponse<ReplyResponseDto> deleteReply(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetailsImpl userDetails
+    ) {
+        if (userDetails != null) {
+            String username = userDetails.getUser().getUsername();
+            replyService.deleteReply(id, username);
+            return ApiUtils.success(200, null);
+        }
+        throw new InvalidValueException(ErrorCode.HANDLE_ACCESS_DENIED);
+    }
 }
