@@ -5,6 +5,7 @@ import com.sparta.springweb.dto.ReplyRequestDto;
 import com.sparta.springweb.dto.ReplyResponseDto;
 import com.sparta.springweb.global.error.exception.EntityNotFoundException;
 import com.sparta.springweb.global.error.exception.ErrorCode;
+import com.sparta.springweb.global.error.exception.InvalidValueException;
 import com.sparta.springweb.model.Comment;
 import com.sparta.springweb.model.Reply;
 import com.sparta.springweb.model.ReplyLike;
@@ -55,24 +56,25 @@ public class ReplyService {
     }
 
 
-//@Transactional
-//    public void updateReply(Long id, ReplyRequestDto replyRequestDto, String username) {
-//        ReplyResponseDto reply = repliesRepository.findById(id)
-//                .orElseThrow(() ->new EntityNotFoundException(ErrorCode.NOTFOUND_REPLY));
-//        if (!reply.getUsername().equals(username)){
-//            throw new InvalidValueException(ErrorCode.NOT_AUTHORIZED);
-//        }
-//        reply.update(replyRequestDto);
-//    }
-//
-//    public void deleteReply(Long id, String username) {
-//        ReplyResponseDto reply = repliesRepository.findById(id)
-//                .orElseThrow(() ->new EntityNotFoundException(ErrorCode.NOTFOUND_REPLY));
-//        if (!reply.getUsername().equals(username)){
-//            throw new InvalidValueException(ErrorCode.NOT_AUTHORIZED);
-//        }
-//        repliesRepository.deleteById(id);
-//    }
+@Transactional
+    public void updateReply(Long id, ReplyRequestDto replyRequestDto, String username) {
+        Reply reply = replyRepository.findById(id)
+                .orElseThrow(() ->new EntityNotFoundException(ErrorCode.NOTFOUND_REPLY));
+        if (!reply.getUsername().equals(username)){
+            throw new InvalidValueException(ErrorCode.NOT_AUTHORIZED);
+        }
+        reply.update(replyRequestDto);
+        replyRepository.save(reply);
+    }
+
+    public void deleteReply(Long id, String username) {
+        Reply reply = replyRepository.findById(id)
+                .orElseThrow(() ->new EntityNotFoundException(ErrorCode.NOTFOUND_REPLY));
+        if (!reply.getUsername().equals(username)){
+            throw new InvalidValueException(ErrorCode.NOT_AUTHORIZED);
+        }
+        replyRepository.deleteById(id);
+    }
 
     private Comment existsComment(long id) {
         return commentRepository.findById(id).orElseThrow(() ->
